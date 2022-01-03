@@ -1,8 +1,8 @@
 <!--
  * @Author: airmz
  * @Date: 2021-12-11 10:25:00
- * @LastEditTime: 2022-01-03 14:11:04
- * @FilePath: /pd/src/common/pageDesign/panel/videoPart.vue
+ * @LastEditTime: 2022-01-03 21:45:54
+ * @FilePath: \pd\src\common\pageDesign\panel\videoPart.vue
 -->
 <template>
   <div id="Video-part-wrap">
@@ -641,12 +641,20 @@ export default {
         });
     },
     handleCheckAllChange(val) {
-      this.musicChecked = val ? this.musicList : [];
+      if(val){
+        this.musicList.forEach((item)=>{
+          this.musicChecked.push(item.id)
+        });
+      }else{
+        this.musicChecked=[]
+      }
       this.isIndeterminate = false;
+      // this.musicChecked = val ? this.musicList : [];
+      // this.isIndeterminate = false;
     },
     handleCheckAllChanges(val) {
       console.log(val);
-      this.dubbingChecked = val ? this.dubbingList : [];
+      // this.dubbingChecked = val ? this.dubbingList : [];
       this.isIndeterminate2 = false;
     },
     handleCheckedCitiesChange(value) {
