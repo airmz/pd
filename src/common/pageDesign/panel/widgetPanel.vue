@@ -26,7 +26,7 @@
         :style="getStyle(5)"
       />
       <!-- <shape-list-wrap v-if="widgetClassifyList[5].show" :style="getStyle(5)" /> -->
-      <text-library v-if="widgetClassifyList[6].show"  :style="getStyle(6)"/>
+      <text-library v-if="widgetClassifyList[6].show" :style="getStyle(6)" />
     </div>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default {
           icon: "icon-moban",
           show: false,
         },
-         {
+        {
           name: "文案",
           icon: "icon-zuoyepingjiamoban",
           show: false,
@@ -83,11 +83,12 @@ export default {
         // },
       ],
       activeWidgetClassify: -1,
-      videoInfo:{}
+      videoInfo: {},
     };
   },
   components: {
-    videoListWrap,partWrap,
+    videoListWrap,
+    partWrap,
   },
   watch: {
     activeWidgetClassify(index) {
@@ -95,10 +96,10 @@ export default {
         this.widgetClassifyList[index].show = true;
       }
     },
-    "videoInfo":function(){
-      console.log("videoInfo" ,this.videoInfo)
+    videoInfo: function () {
+      console.log("videoInfo", this.videoInfo);
       this.$parent.videoInfo = this.videoInfo;
-    }
+    },
   },
   mounted() {
     this.activeWidgetClassify = 0;

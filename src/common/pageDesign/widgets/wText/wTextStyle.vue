@@ -372,11 +372,6 @@ export default {
           value: "f11",
           fontName: "方正黑体简体",
         },
-        {
-          name: "千图雪花体",
-          value: "f19",
-          fontName: "千图雪花体",
-        },
       ],
       symbolList: [
         {

@@ -233,7 +233,8 @@ export default {
     getImgList(uid) {
       let that = this;
       console.log(that);
-      var data = { page: this.page, size: this.size, type: 0 }; //定义一个data储存需要带的参数
+      var data = { page: this.page, size: this.size,  type: 0,
+        label : "热门" }; //定义一个data储存需要带的参数
       if (uid) {
         data.uid = uid;
         data.type = 1;

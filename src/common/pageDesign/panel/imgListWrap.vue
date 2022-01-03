@@ -5,13 +5,19 @@
         class="tab"
         :class="{ 'active-tab': activeTab === 0 }"
         @click="activeTab = 0"
-        >推荐</span
+        >推荐({{ imgList.length }})</span
       >
       <span
         class="tab"
         :class="{ 'active-tab': activeTab === 1 }"
         @click="activeTab = 1"
         >我的</span
+      >
+      <span
+        class="tab"
+        :class="{ 'active-tab': activeTab === 2 }"
+        @click="activeTab = 2"
+        >已选择</span
       >
     </div>
 
@@ -82,6 +88,21 @@
         @select-img="selectImg"
       />
     </div>
+    <div class="tab-content 0" v-if="hadShowCheckedImg" :style="getStyle(2)">
+      <img-water-fall
+        class="img-list"
+        showCheck="true"
+        :imgList="imgList"
+        :listData="checkedImgList"
+        sortBy="id"
+        :clear="clear"
+        k="id"
+        @delete-img="deleteImg"
+        @scroll-img="wheelChange"
+        @checked-img="checkedImg"
+        @select-img="selectImg"
+      />
+    </div>
   </div>
 </template>
 
@@ -105,11 +126,13 @@ export default {
       recommendImgList: [],
       hadShowMyImg: false,
       hadShowRecommendImg: false,
+      hadShowCheckedImg: false,
       pos: 0,
       loading: false,
       clear: 1,
       radio: "1",
       imgList: [],
+      checkedImgList: [],
     };
   },
   mounted() {
@@ -124,6 +147,7 @@ export default {
       if (value === 0) {
         this.hadShowMyImg = true;
         this.hadShowRecommendImg = false;
+        this.hadShowCheckedImg = false;
         this.page = 1;
         this.loading = true;
         this.myImgList = [];
@@ -132,12 +156,34 @@ export default {
       } else if (value === 1) {
         this.hadShowMyImg = false;
         this.hadShowRecommendImg = true;
+        this.hadShowCheckedImg = false;
         this.page = 1;
         this.loading = true;
         this.myImgList = [];
         // this.$set(recommendImgList =[]);
         console.log(this.user.id);
         this.getImgList(this.user.id);
+      } else if (value === 2) {
+        var that = this;
+        that.checkedImgList = [];
+        that.hadShowMyImg = false;
+        that.hadShowRecommendImg = false;
+        that.hadShowCheckedImg = true;
+        that.getStoreImgList().then((res) => {
+          that.imgList = res;
+          var imgList = [];
+          for (let index = 0; index < that.imgList.length; index++) {
+            const elem = that.imgList[index];
+            console.log(elem);
+            let img = {};
+            img.url = elem;
+            img.id = index;
+            img.ratio = 98 / 131;
+            imgList.push(img);
+          }
+          console.log(imgList);
+          that.checkedImgList = imgList;
+        });
       }
     },
   },
@@ -322,6 +368,7 @@ export default {
     checkedImg(item) {
       console.log(item);
       this.setCheckImgIds(item);
+      this.imgList = item;
       // addCheckImgId
     },
     unique(arr) {
@@ -334,13 +381,13 @@ export default {
       // setting.height = 1334
       // setting.imgUrl = item.value.url
       // this.addWidget(setting)
-    //   console.log("selectImg", item);
+      //   console.log("selectImg", item);
 
-    //   this.imgList.push(item.value.url);
+      //   this.imgList.push(item.value.url);
 
-    //  this.imgList =  this.unique(this.imgList);
-    //   console.log(this.imgList);
-    //   console.log(item);
+      //  this.imgList =  this.unique(this.imgList);
+      //   console.log(this.imgList);
+      //   console.log(item);
       this.updatePageData({
         key: "backgroundImage",
         value: item.value.url,

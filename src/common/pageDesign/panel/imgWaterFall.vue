@@ -28,7 +28,7 @@
         </transition>
         <!-- <el-checkbox v-if="showCheck" class="img-radio" v-model="checkedImgs"  id="checkedImgs" :value="item.value.url" @click.stop="checkedImg()"  label="选择" border></el-checkbox> -->
 
-        <input v-if="showCheck" class="img-radio" type="checkbox" v-model="checkedImgs" id="checkedImgs" :value="item.value.url" @click.stop="checkedImg()"  >
+        <input v-if="showCheck=='true'" class="img-radio" type="checkbox" v-model="checkedImgs" id="checkedImgs" :value="item.value.url" @click.stop="checkedImg()"  >
 
         <div class="delete" v-if="item.value.canDel" @click.stop="deleteImg(item, index)">
           <div class="bg"></div>

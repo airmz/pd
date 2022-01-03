@@ -1,3 +1,4 @@
+import moment from 'moment'
 const EMAIL_PATTERN = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 const ID_CARD_PATTERN = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
 
@@ -67,6 +68,12 @@ function checkIdCardNumber (rule, value, cb) {
     cb()
   }
 }
+function dateFormat (date) {
+  if (date === undefined) {
+    return ''
+  }
+  return moment(date).format('YYYY-MM-DD HH:mm')
+}
 
 export default {
   install (Vue) {
@@ -75,7 +82,8 @@ export default {
       checkPhone,
       checkEmail,
       checkIdCardNumber,
-      getUrlKey
+      getUrlKey,
+      dateFormat
     }
   }
 }

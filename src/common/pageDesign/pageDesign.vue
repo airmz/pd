@@ -69,7 +69,7 @@
           :src="videoInfo.link"
           v-if="videoInfo.show != false"
           controls
-          style="width: 100%; position: absolute; top: 550px"
+          style="width: 100%; position: absolute; top: 456px"
           autoplay
           loop="loop"
         ></video>

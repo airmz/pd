@@ -193,7 +193,7 @@
                     id="cover"
                     :src="videoInfo.link"
                     controls="controls"
-                    style="width: 225px; position: absolute; margin-top: 60px"
+                    style="width: 225px; position: absolute;"
                   >
                     {{ item.link }}
                   </video>
@@ -208,7 +208,7 @@
               <text-input label="模板名称" v-model="title" />
               <span>海报生成：可生成 {{ posterCount }}个海报</span>
               <span>视频生成：可生成 {{ posterCount }}个视频</span>
-              <span>视频选择：已选择 1个</span>
+              <span>视频选择：已选择 {{videoCount}}个</span>
               <span>背景选择：已选择 {{ posterCount }}张</span>
               <span>模板尺寸：1920 * 1080</span>
             </div>
@@ -344,6 +344,7 @@ export default {
       posterList: [],
       imgList: [],
       posterCount: 0,
+      videoCount:0,
       percent: 0,
     };
   },
@@ -432,6 +433,7 @@ export default {
       "getStoreImgList",
       "getPosterList",
       "setPosterList",
+      "getVideoList",
     ]),
     showVideos() {
       console.log(this.videoInfo.show);
@@ -834,6 +836,9 @@ export default {
       this.percent = 0;
       this.imgList = [];
       this.posterList = [];
+      this.getVideoList().then((json) => {
+          this.videoCount = json.length;
+      });
       this.getStoreImgList().then((json) => {
         this.imgList = json;
         this.posterCount = this.imgList.length;

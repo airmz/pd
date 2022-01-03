@@ -79,7 +79,8 @@ const state = {
   dSelectWidgets: [], // 记录多选的组件
   dGroupJson: {}, // 组合的json数据
   dImgList: [], // 选中的素材列表
-  dPosterList: [] // 生成的海报列表
+  dPosterList: [], // 生成的海报列表
+  dVideoList: [] // 选择的视频列表
 }
 
 const getters = {
@@ -148,6 +149,12 @@ const actions = {
   },
   getPosterList (store) {
     return store.state.dPosterList
+  },
+  setVideoList (store, videoList) {
+    store.state.dVideoList = videoList
+  },
+  getVideoList (store) {
+    return store.state.dVideoList
   },
   /**
    * 保存操作历史，
@@ -722,9 +729,11 @@ const actions = {
     let widgets = JSON.parse(JSON.stringify(store.state.dWidgets))
     let imgList = JSON.parse(JSON.stringify(store.state.dImgList))
     let posterList = JSON.parse(JSON.stringify(store.state.dPosterList))
+    let videoList = JSON.parse(JSON.stringify(store.state.dVideoList))
     page.widgets = widgets
     page.imgList = imgList
     page.posterList = posterList
+    page.videoList = videoList
     return page
   },
   updateAltDown (store, value) {

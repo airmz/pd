@@ -101,11 +101,11 @@
               ></el-checkbox>
               <div class="videoTitle">
                 <span>{{ item.title }}</span>
-                <!--   <div class="videoSubTitle">
-                <p>1.2k</p>
+                  <div class="videoSubTitle">
+                <p>{{item.isPublish==1 ? '已发布':"未发布"}}</p>
                 <p>|</p>
-                <p>0.00s</p>
-              </div>-->
+                <p>{{item.id}}</p>
+              </div>
               </div>
             </div>
           </div>

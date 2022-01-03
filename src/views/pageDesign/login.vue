@@ -171,7 +171,6 @@ import cloud from "COMMON/pageDesign/index/cloud";
 import activity from "COMMON/pageDesign/index/activity";
 import temp from "COMMON/pageDesign/index/temp";
 import works from "COMMON/pageDesign/index/works";
-import moment from "moment";
 export default {
   name: "login",
   data() {
@@ -336,7 +335,7 @@ export default {
                   type: "success",
                   message:
                     "激活成功！有效期至 " +
-                    moment(res.data.data.endDate).format("YYYY-MM-DD HH:mm:ss"),
+                    this.$validator.dateFormat(res.data.data.endDate),
                 });
                 this.$local.set("user", res.data.data);
                 window.location.reload();
@@ -435,7 +434,7 @@ export default {
             "亲爱的【" +
             this.user.nickName +
             "】,您已登录成功！有效期到：" +
-            moment(this.user.endDate).format("YYYY-MM-DD HH:mm:ss"),
+            this.$validator.dateFormat(this.user.endDate),
           type: "success",
         });
       } else {

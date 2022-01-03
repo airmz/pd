@@ -1,7 +1,7 @@
 /*
  * @Author: airmz
  * @Date: 2021-12-28 18:09:48
- * @LastEditTime: 2021-12-30 11:57:52
+ * @LastEditTime: 2022-01-03 09:29:21
  * @FilePath: /pd/src/main.js
  */
 
@@ -32,7 +32,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 Vue.prototype.$local = local
 
-Vue.prototype.$domain = 'http://draw.dd0531.com'
+Vue.prototype.$domain = 'http://draws.58cat.top'
 
 // Vue.prototype.$domain = 'http://192.168.1.4:8081/'
 // Vue.prototype.$domain = 'http://draws.dd0531.com'

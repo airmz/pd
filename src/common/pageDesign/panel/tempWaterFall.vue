@@ -9,7 +9,7 @@
         :key="index"
         :style="{
           width: boxWidth+ 'px',
-          height: boxWidth / item.ratio - 10  + 'px',
+          height: boxWidth / item.ratio - 30  + 'px',
           top: item.top + 'px',
           left: item.left + 'px'
         }"
@@ -20,10 +20,11 @@
              v-lazy="item.value.thumb"
             :style="{
               width: boxWidth - 10 + 'px',
-              height: boxWidth / item.ratio - 10 + 'px'
+              height: boxWidth / item.ratio - 30 + 'px'
 
             }" />
         </transition>
+        <span>{{item.value.title}}</span>
         <!-- <input v-if="showCheck" class="img-radio" type="checkbox" v-model="checkedImgs" id="checkedImgs" :value="item.value.url" @click.stop="checkedImg()"  >
         <div class="delete" v-if="item.value.canDel" @click.stop="deleteImg(item, index)">
           <div class="bg"></div>

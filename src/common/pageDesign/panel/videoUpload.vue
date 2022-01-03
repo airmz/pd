@@ -76,23 +76,12 @@
                 </div>
                 <span class="videoTitle">{{ defalutVideo.title }}</span>
               </div>
-               <el-popover placement="bottom" width="150" trigger="click">
-                          <div class="popover">
-                            <ul>
-                              <li class="popover-li" @click="delVideo(item)">
-                                <span>删除</span>
-                              </li>
-                            </ul>
-                          </div>
-                          <el-button
-                            class="popoverBtn"
-                            icon="el-icon-more"
-                            type="info"
-                            slot="reference"
-                          ></el-button>
-                        </el-popover>
+
               <div v-for="(item, index) in fileList" :key="index">
                 <div v-if="item.thumb">
+                  <el-checkbox-group v-model="videoChecked" class="checked" @change="videoChange">
+                    <el-checkbox :label="item.link"> </el-checkbox>
+                  </el-checkbox-group>
                   <p class="videoTime">{{ item.fileSize }}</p>
                   <div class="bgVideo bgVideoList" @click="selectVideo(item)">
                     <img
@@ -109,12 +98,30 @@
                     :percentage="item.percentage"
                   ></el-progress>
                 </div>
-                <span v-if="!item.thumb" class="videoTitle">{{
-                  item.subTitle
-                }}</span>
-                <span v-if="item.thumb" class="videoTitle">{{
-                  item.title
-                }}</span>
+                <div class="videoTitles">
+                  <span v-if="!item.thumb" class="videoTitle">{{
+                    item.subTitle
+                  }}</span>
+                  <span v-if="item.thumb" class="videoTitle">{{
+                    item.title
+                  }}</span>
+                </div>
+
+                <el-popover placement="bottom" width="150" trigger="click">
+                  <div class="popover">
+                    <ul>
+                      <li class="popover-li" @click="delVideo(item)">
+                        <span>删除</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <el-button
+                    class="popoverBtn"
+                    icon="el-icon-more"
+                    type="info"
+                    slot="reference"
+                  ></el-button>
+                </el-popover>
               </div>
             </div>
           </div>
@@ -137,6 +144,7 @@ export default {
   components: { YlUpload },
   data() {
     return {
+      videoChecked: [],
       videoList: true,
       fileList: {},
       page: 1,
@@ -172,7 +180,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["addWidget"]),
+    ...mapActions(["setVideoList"]),
     chunkData(option) {
       return {
         size: option.fileSize, // 总文件大小
@@ -183,7 +191,11 @@ export default {
         fileHash: option.fileHash, // 整个文件hash
       };
     },
-      delVideo(temp) {
+    videoChange(e){
+      console.log(this.videoChecked);
+      this.setVideoList(this.videoChecked)
+    },
+    delVideo(item) {
       this.$confirm("此操作将永久删除该视频, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -191,19 +203,30 @@ export default {
       })
         .then(() => {
           var data = {
-            id: temp.id,
+            id: item.id,
+            link: item.link,
+            status: 3,
           };
           this.$axios
-            .post(this.$domain + "///api/delTemple?", this.$qs.stringify(data))
+            .post(
+              this.$domain + "/api/saveUserVideo?",
+              this.$qs.stringify(data)
+            )
             .then((res) => {
               if (res.data.code == 200) {
                 this.$message({
                   showClose: false,
-                  message: res.data.msg,
+                  message: "删除成功",
                   type: "success",
                 });
-                this.tempNameVisible = false;
-                this.$parent.local();
+                // this.fileList=[];
+                // this.getUserVideoList(1);
+                var index = this.fileList.findIndex((file) => {
+                  if (file.id == item.id) {
+                    return true;
+                  }
+                });
+                this.fileList.splice(index, 1);
               } else {
                 this.$message({
                   showClose: false,
@@ -593,7 +616,7 @@ export default {
   width: 350px;
   border-radius: 5px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 170px);
   justify-content: center;
   align-items: center;
   // column-gap: 5px;
@@ -635,11 +658,26 @@ export default {
   color: #666666;
   margin-top: 6px;
 }
-
+.videoTitles{
+  width:130px
+  // word-break: break-all;
+  // word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // white-space: normal;
+}
 .videoTitle {
   font-size: 8px;
   color: #666666;
   margin-left: 10px;
+  // // width: 10px;
+  // word-break: break-all;
+  // word-wrap: break-word;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // // white-space: nowrap;
+  // white-space: normal;
 }
 
 .videoTime {
@@ -666,6 +704,7 @@ export default {
     background: #ED4040;
   }
 }
+
 .popover {
   background-color: #050507;
   border-radius: 10px;
@@ -673,14 +712,15 @@ export default {
   color: #ffffff;
   font-weight: 800;
   width: 76%;
-  margin-left 13px;
+  margin-left: 13px;
 }
 
 .popoverBtn {
+  display: flex;
   background-color: #2d2c2e00;
   position: relative;
   top: -52px;
-  left: 288px;
+  left: 68%;
   border: none;
 }
 
@@ -698,6 +738,7 @@ export default {
 .popover-li:hover {
   background-color: #242323;
 }
+
 /deep/ .el-dialog__body {
   display: flex;
   justify-content: center;
@@ -728,13 +769,26 @@ export default {
 /deep/ .el-dialog__wrapper {
   background-color: #ffffff !important;
 }
-/deep/ .el-button--info:focus{
+
+/deep/ .el-button--info:focus {
   background: none;
-  border: none
+  border: none;
 }
-/deep/ .el-button--info:hover{
+
+/deep/ .el-button--info:hover {
   background: none;
-  border: none
+  border: none;
+}
+
+.checked {
+  position: relative;
+  top: 45px;
+  left: 18px;
+  z-index: 999;
+}
+
+/deep/ .el-checkbox__label {
+  display: none;
 }
 </style>
 <style>
